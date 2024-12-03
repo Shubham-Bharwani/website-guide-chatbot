@@ -1,0 +1,319 @@
+
+body {
+    background-color: #d0e7ff;
+    margin: 0;
+    padding: 0;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.chat-container {
+    width: 75%;
+    margin: auto;
+    padding: 20px;
+    background-color: #d0e7ff;
+    border-radius: 10px;
+    margin-top: 16px;
+    margin-bottom: 14px;
+    margin-left: 300px;
+    margin-right: 20px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    flex-grow: 1;
+    height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #d0e7ff;
+}
+
+.message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+.message.user {
+    background-color: #18283b;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+    width: max-content;
+    word-wrap: break-word;
+    margin-top: 3px;
+    border-radius: 15px;
+    /* display: inline; */
+    /* float: right; */
+    /* align-items: right; */
+}
+
+.message.bot {
+    background-color: #e3e3e3;
+    color: black;
+    margin-right: auto;
+    width: max-content;
+    border-radius: 15px;    
+    position: relative;
+}
+
+
+.copy-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #e3e3e3;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.copy-btn:hover {
+    background-color: #d0e7ff;
+}
+
+
+.messages::-webkit-scrollbar {
+    display: none;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-group select,
+.form-group button {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.form-group button {
+    background-color: #3b5998;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group button:hover {
+    background-color: #7895d0;
+}
+
+/* #send-button {
+    padding: 15px 14px;
+    margin-left: 10px;
+    margin-right:10px;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 36px;
+    font-size: 12px;
+} */
+
+.chat-input-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 96%; /* Adjust to fit container */
+    margin: 10px;
+  }
+  
+  .chat-input {
+    flex: 1; /* Allows the input to take up available space */
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 25px;
+  }
+  
+  #send-button {
+    background-color: #18283b; /* Green background */
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+  }
+  
+  #send-button i {
+    color: white;
+    font-size: 18px;
+  }
+  
+  #send-button:hover {
+    background-color: #45a049;
+  }
+  
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.input-group input[type="text"] {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #f3f6f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 30%;
+}
+
+.modal-header, .modal-footer {
+    margin: 10px;
+}
+
+/* Loader */
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* Modal Styles */
+.modal {
+display: none; /* Hidden by default */
+position: fixed; 
+z-index: 1; 
+left: 0;
+top: 0;
+width: 100%; 
+height: 100%; 
+overflow: auto; 
+background-color: rgba(0, 0, 0, 0.4); /* Dimmed background */
+padding-top: 60px;
+}
+
+.modal-content {
+background-color: #fff;
+margin: 5% auto;
+padding: 20px;
+border: 1px solid #ccc;
+width: 25%; /* Reduced width for a crisper look */
+border-radius: 10px;
+box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2); /* Soft shadow for a modern look */
+}
+
+.modal-header {
+/* background-color: #3b5998; 
+
+align-items: center;
+justify-content: space-between;
+color: #3b5998;
+height: auto;
+padding: 10px;  */
+text-align: center;
+border-radius: 10px 10px 0 0;
+font-weight: bold;
+font-size: 1.2em;
+}
+
+.modal-body {
+/* padding: 10px 20px;  */
+margin-top: -25px
+}
+
+.modal-body form {
+display: flex;
+flex-direction: column;
+}
+
+.modal-body label {
+margin-top: 10px;
+font-size: 0.9em; /* Smaller label size */
+}
+
+.modal-body input[type="text"] {
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 5px;
+margin-top: 5px;
+font-size: 0.9em;
+}
+
+.modal-body button {
+margin-top: 15px;
+padding: 10px;
+background-color: #3b5998; /* Primary color */
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+font-size: 0.9em;
+}
+
+.modal-body button:hover {
+background-color: #7895d0;
+}
+
+
+.modal-body .input-row {
+display: flex;
+justify-content: space-between;
+margin-top: 10px;
+flex-direction: column;
+
+}
+
+.modal-body .input-row input {
+flex: 1;
+margin-right: 10px;
+font-size: 0.9em;
+width:90%
+}
+
+.modal-body .input-row input:last-child {
+margin: 10px;
+}
+

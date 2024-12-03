@@ -1,0 +1,38 @@
+{% load widget_tweaks %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL-ENTRY</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+        <style>
+        body {
+        /* background-color: rgb(76, 220, 220); */
+        background-color: #f7cac9;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-decoration: none; font-family:'Ubuntu'; color: #034f84; font-size: 50px;">Welcome,&nbsp;Username!</h1>
+    <div class="register-form">
+        <h2>URL-ENTRY</h2>
+
+    {{ form.non_field_errors }}
+    <form action="{% url 'url_entry' %}" class="fieldWrapper" method="post">
+        {% csrf_token %}
+        {{ form.site_url.errors }}
+        {{ form.site_url|add_class:'form-inputs'|attr:"placeholder=URL" }}
+
+        {{ form.site_name.errors }}
+        {{ form.site_name|add_class:'form-inputs'|attr:"placeholder=Name" }}
+
+    <button type="submit" ><b>SCRAPE</b></button>
+</form>
+</div>
+</body>
+</html>

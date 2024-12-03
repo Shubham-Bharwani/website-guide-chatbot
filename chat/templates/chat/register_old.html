@@ -1,0 +1,35 @@
+{% load widget_tweaks %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <div class="register-form">
+        <h1>sign up</h1>
+        {% if  form.non_field_errors %}
+    {{ form.non_field_errors }}
+{% endif %}
+      
+    <form action="{% url 'register' %}" class="fieldWrapper" method="post">
+
+        {% csrf_token %}
+        {% for field in form %}
+        {{ field.errors }}
+
+        <label for={{field.id_for_label}} class="form-labels"><b>{{ field.label_tag }} </b></label>
+        {{field|add_class:'form-inputs'}}
+    {% endfor %}
+    <a href="{% url 'login' %}">Login as existing User</a>
+    <button type="submit" ><b>REGISTER</b></button>
+
+   
+</form>
+</div>
+</body>
+</html>

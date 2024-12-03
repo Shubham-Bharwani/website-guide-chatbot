@@ -1,0 +1,45 @@
+{% load widget_tweaks %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="register-form">
+        <h2>Create an Account</h2>
+        {% if form.non_field_errors %}
+            {{ form.non_field_errors }}
+        {% endif %}
+        
+        <form action="{% url 'register' %}" class="fieldWrapper" method="post">
+            {% csrf_token %}
+
+
+            {{ form.username.errors }}
+            {{ form.username|add_class:'form-inputs'|attr:"placeholder=Username" }}
+
+            {{ form.email.errors }}
+            {{ form.email|add_class:'form-inputs'|attr:"placeholder=Email" }}
+            
+            {{ form.password1.errors }}
+            {{ form.password1|add_class:'form-inputs'|attr:"placeholder=Password" }}
+
+            {{ form.password2.errors }}
+            {{ form.password2|add_class:'form-inputs'|attr:"placeholder=Confirm-Password" }}
+
+
+            <button type="submit"><b>REGISTER</b></button>
+            <div class="or-divider">
+                <div style="width:40%"><hr></div>
+                <div>&nbsp;&nbsp;OR&nbsp;&nbsp;</div>
+                <div style="width:40%"><hr></div>
+            </div>
+            <a href="{% url 'login' %}" class="login-link">Login as existing User</a>
+        </form>
+    </div>
+</body>
+</html>

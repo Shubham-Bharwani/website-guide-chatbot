@@ -1,0 +1,169 @@
+/* Base Styles */
+body {
+    background-color: #2f3640; /* Dark background */
+    margin: 0;
+    padding: 0;
+    font-family: 'Ubuntu', sans-serif;
+    color: #f1f1f1;
+}
+
+.chat-container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: #34495e; /* Dark gray background */
+    border-radius: 10px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.messages {
+    flex-grow: 1;
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #2f3640; /* Matches the body */
+    color: #f1f1f1;
+}
+
+.message {
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 12px;
+    max-width: 70%;
+}
+
+.message.user {
+    background-color: #4CAF50; /* Green for user messages */
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+.message.bot {
+    background-color: #7f8c8d; /* Muted gray for bot responses */
+    color: white;
+}
+
+.chat-input-bar {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #2c3e50; /* Slightly lighter gray */
+    border-radius: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    background-color: #34495e; /* Dark gray input field */
+    color: white;
+}
+
+#send-button {
+    background-color: #16a085; /* Teal for Send button */
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+#send-button i {
+    color: white;
+    font-size: 20px;
+}
+
+#send-button:hover {
+    background-color: #1abc9c; /* Lighter teal on hover */
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #34495e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    width: 30%;
+}
+
+.modal-header {
+    color: #f1f1f1;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.modal-body {
+    color: #bdc3c7;
+    margin-top: -15px;
+}
+
+.modal-body input[type="text"] {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #7f8c8d;
+    background-color: #34495e;
+    color: white;
+    margin-top: 10px;
+}
+
+.modal-body button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #16a085;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.modal-body button:hover {
+    background-color: #1abc9c;
+}
+
+/* Loader Styles */
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #16a085;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

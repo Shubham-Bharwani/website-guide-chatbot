@@ -1,0 +1,295 @@
+{% load widget_tweaks %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Url Entry</title>
+    <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+
+          
+        }
+
+        .welcome-text {
+            margin-top: 30px;
+            text-align: center;
+            color: #18283b;
+            font-size: 50px;
+            font-family: 'Ubuntu';
+        }
+
+        .instructions {
+            background-color: #d4efdf;
+            width: 25%;
+            padding: 20px;
+            position: fixed;
+            top: 50%;
+            right: -30%;
+            transform: translateY(-50%);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+            border-radius: 10px;
+            animation: slideIn 1s forwards;
+        }
+        .instructions.left {
+            background-color: #d4efdf;
+            width: 25%;
+            padding: 20px;
+            position: fixed;
+            top: 50%;
+            left: -30%;
+            transform: translateY(-50%);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+            border-radius: 10px;
+            animation: slideOut 1s forwards;
+        }
+
+        @keyframes slideIn {
+            0% {
+                right: -30%;
+            }
+            100% {
+                right: 2%;
+            }
+        }
+        @keyframes slideOut {
+            0% {
+                left: -30%;
+            }
+            100% {
+                left: 2%;
+            }
+        }
+
+        .instructions h3 {
+            font-family: 'Ubuntu', sans-serif;
+            color: #034f84;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #f3f6f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 30%;
+        }
+
+        .modal-header, .modal-footer {
+            margin: 10px;
+        }
+
+        /* Loader */
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .modal-button {
+            padding: 10px 20px;
+            background-color: #18283b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        .modal-button:hover {
+            background-color: #18283b;
+            opacity: 0.8;
+        }
+
+        .modal-button.secondary {
+            background-color: #d9534f;
+        }
+
+        .modal-button.secondary:hover {
+            background-color: #e67e73;
+        }
+
+        ul.errorlist {
+    list-style-type: none; 
+    padding: 0;
+    margin: 0;
+    color: #b94a48; 
+    background-color: #f2dede;
+
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%; 
+}
+
+ul.errorlist li {
+    padding: 5px;
+    margin: 10px 0;
+    background-color: #ffd1d5;
+    border-radius: 10px;
+}
+
+ul.errorlist li::before {
+    content: "⚠️ "; 
+    font-weight: bold;
+}
+
+
+div.errorlist {
+    margin-bottom: 10px; 
+}
+    </style>
+</head>
+<body>
+{% if not user.is_authenticated %}
+    <meta http-equiv="REFRESH" content="0;url={% url 'login' %}">
+    {% endif %} 
+    <h1 class="welcome-text">Welcome,&nbsp;{{ user.username }}!</h1>
+
+    <!-- Main Content -->
+    <div class="register-form">
+        <h2>Url Entry</h2>
+        {% if form.non_field_errors %}
+        {{ form.non_field_errors }}
+        {% endif %}
+        <form action="{% url 'url_entry' %}" class="fieldWrapper" method="post" id="urlEntryForm">
+            {% csrf_token %}
+            {{ form.site_url.errors }}
+            {{ form.site_url|add_class:'form-inputs'|attr:"placeholder=URL" }}
+
+            {{ form.site_name.errors }}
+            {{ form.site_name|add_class:'form-inputs'|attr:"placeholder=Name" }}
+
+            <button type="submit" class="modal-button"><b>SCRAPE</b></button>
+        </form>
+    </div>
+    <div class="instructions">
+        <h3>Instructions</h3>
+        <p>1. Enter a valid URL in the field.</p>
+        <p>2. Provide a unique name for the URL entry.</p>
+        <p>3. Click on the 'Scrape' button to start the scraping process.</p>
+        <p>4. Ensure the data is correct before submitting.</p>
+    </div>
+    <div class="instructions left">
+        <h3>What we will do</h3>
+        <p> &#x2022;  We will add the site's data to our database if it is new to us.</p>
+        <p> &#x2022;  Then you will be redirected to the our Chatbot.</p>
+    </div>
+
+    <div id="scrapeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Scraping in Progress...</h3>
+            </div>
+            <br>
+            <div class="modal-body">
+                <div class="loader"></div>
+                <p id="modalMessage">Please do not close this window while scraping is in progress.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Re-Scrape Modal HTML Structure -->
+    <div id="reScrapeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Data Already Exists</h3>
+            </div>
+            <div class="modal-body">
+                <p>The data for this site already exists. Do you want to re-scrape?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" id="reScrapeYes">Yes</button>
+                <button class="modal-button secondary" id="reScrapeNo">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    // Function to open the scraping modal (without close option)
+    function openScrapingModal() {
+        scrapeModal.style.display = "flex";
+    }
+        // JavaScript to handle modals display
+        const scrapeModal = document.getElementById("scrapeModal");
+        const reScrapeModal = document.getElementById("reScrapeModal");
+
+        const reScrapeYesBtn = document.getElementById("reScrapeYes");
+        const reScrapeNoBtn = document.getElementById("reScrapeNo");
+
+        // Function to open modal with custom content
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "flex";
+        }
+
+        // Function to close a specific modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        reScrapeYesBtn.addEventListener("click", () => {
+            closeModal("reScrapeModal");
+            openModal("scrapeModal"); // Show scraping modal if user selects "Yes"
+            setTimeout(() => {
+                document.getElementById("urlEntryForm").submit(); // Simulate form submission
+            }, 3200); // Simulate a delay before submission
+        });
+
+        reScrapeNoBtn.addEventListener("click", () => {
+            closeModal("reScrapeModal");
+            // Optionally redirect to another page or cancel the operation
+        });
+
+        // Intercept form submit and handle accordingly
+        document.getElementById("urlEntryForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent actual form submission
+            // Here, simulate the check if data already exists:
+            const dataExists = "{{dataExist}}"; // Replace this with real logic from server-side response
+            if (dataExists) {
+                openModal("reScrapeModal"); // Show re-scrape modal if data exists
+            } else {
+                openModal("scrapeModal"); // Show scraping modal if no data exists
+                setTimeout(() => {
+                    event.target.submit();
+                }, 2000); // Simulate a delay before submission
+            }
+        });
+    </script>
+</body>
+</html>

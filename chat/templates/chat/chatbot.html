@@ -1,0 +1,377 @@
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Chatbot</title>
+        <link rel="stylesheet" href="{% static 'css/sidenav.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bot.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">        
+        <!-- <script src="{% static 'js/bot.js' %}" defer></script> -->
+    </head>
+    <body>
+    <div class="main-page">
+        <div id="nav-bar">
+            <input id="nav-toggle" type="checkbox">
+            <div id="nav-header">
+            <a id="nav-title" href="{% url 'chat' %}" target="_blank">
+                <i class="fas fa-robot"></i> SCRAT
+            </a>
+            
+            <!-- <label for="nav-toggle">
+                <span id="nav-toggle-burger"></span>
+            </label> -->
+            <!-- <hr> -->
+        </div>
+        <div class="nav-button" id="new-site-button">
+            <i class="fas fa-plus"></i>
+            <span>New Site</span>
+        </div>
+            <div id="nav-content">
+                {% for site in sites %}
+            <div class="nav-button"><i class="fas fa-globe"></i><span>{{site.0}}</span></div>
+            <hr>
+            {% endfor %}
+            <div id="nav-content-highlight"></div>
+            </div>
+            <input id="nav-footer-toggle" type="checkbox">
+            <div id="nav-footer">
+            <div id="nav-footer-heading">
+                <!-- <div id="nav-footer-avatar">
+                <img src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547" alt="Avatar">
+                </div> -->
+                <div id="nav-footer-titlebox">
+                <a id="nav-footer-title" target="_blank">{{user.username}}</a>
+                <span id="nav-footer-subtitle">{{user.email}}</span>
+                </div>
+
+                <label for="nav-footer-toggle">
+                    <a href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt"></i></a>
+                </label>
+            </div>
+            <!-- <div id="nav-footer-content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </div> -->
+            </div>
+        </div>
+        
+
+
+
+        <div class="chat-container">
+            <div class="form-group">
+                {% comment %} <select id="site-name-dropdown">
+                    <option value="">Select Site</option>
+                    {% for site in sites %}
+                    <option value="{{ site.0 }}">{{ site.0 }}</option>
+                    {% endfor %}
+                </select> {% endcomment %}
+                {% comment %} <button id="new-site-button">New Site</button> {% endcomment %}
+                {% comment %} <form action="{% url 'logout' %}">
+                <button id="logout-button">Logout</button></form> {% endcomment %}
+            </div>
+
+            <div class="messages" id="messages">
+                <!-- Load chat history -->
+                
+                 <div class="message bot"><p>🦣 Hey there, explorer!</p>
+                    I'm Scrat, your trusty guide to all sorts of amazing sites! 🌍 I've got info on a bunch of sites already, so feel free to ask about any of them! 🗺️
+                    <br><br>
+                    If you're curious about a place I don’t know yet, no problem! Just tell me, and I can add it so I can get the info for you next time. 📥✨
+                    <br><br>
+                    So, what site are you curious about today? Let’s get started!
+                    </p> 
+                 </div>
+                 
+                {% for entry in history %}
+                    <div class="message user">{{ entry.query }}</div>
+                    <div class="message bot">{{ entry.response|safe }}<button class="copy-btn fa-regular fa-copy" onclick="copyToClipboard(event)">
+                        </button></div>
+                {% endfor %}
+            </div>
+
+            {% comment %} <div class="input-group">
+                <input type="text" name="query" id="user-message" placeholder="Type your message..." />
+                <button id="send-button">Send</button>
+            </div> {% endcomment %}
+            <form action="post" id="query-form">
+            <div class="chat-input-bar">
+                <input type="text" name ="query" placeholder="Type your message..." id = "user-message" class="chat-input"/>
+                <button id="send-button">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            </form>
+        </div>
+        <div id="scrapingProgressModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Scraping in Progress...</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="loader"></div>
+                    <p id="modalMessage">Please do not close this window while scraping is in progress.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Add New Site Modal -->
+    <div id="newSiteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style= "font-size:25px; text-align:right; cursor:pointer;" id = "cross-sign">&times;</div>
+                <h3 style="text-align: center; margin-top:0; padding:0;">Add New Site</h3>
+            </div>
+            <div class="modal-body">
+                <form id="new-site-form" method="POST">
+                    <div class="input-row">
+                        <div>
+    <!-- <label for="site_url">URL:</label> -->
+                            <input type="text" id="site_url" placeholder="Enter URL" required>
+                        </div>
+                        <div>
+    <!-- <label for="site_name">Name:</label> -->
+                            <input type="text" id="site_name" placeholder="Enter Name" required>
+                        </div>
+                    </div>
+                    <button type="submit" id="add-site-btn">Add Site</button>
+                </form>
+            </div>
+        </div>
+    </div>
+        
+    </div>
+
+    <script>
+        function scrollToBottom() {
+    const messagesContainer = document.getElementById('messages');
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// Scroll to bottom on page load to show the latest chat history
+window.onload = function() {
+    scrollToBottom();
+};
+function addMessage(text, type) {
+    const messagesContainer = document.getElementById('messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`;
+    if (type === 'bot'){
+        messageDiv.className = `message ${type} move`;
+    }
+    messageDiv.innerHTML = text;
+    messagesContainer.appendChild(messageDiv);
+    scrollToBottom();
+}
+
+// Select all sidebar buttons
+const navButtons = document.querySelectorAll('.nav-button');
+const highlight = document.querySelector('#nav-content-highlight');
+const updateHighlight = (index) => {
+const buttonHeight = 54; // Height of each button
+highlight.style.top = `${16 + ((index-1) * buttonHeight)}px`; // Adjust based on your layout
+if (index == 0){
+highlight.style.opacity = 0;
+}
+else{
+highlight.style.opacity = 1; // Show the highlight
+}
+};
+// Add event listeners to each button
+navButtons.forEach((button,index) => {
+button.addEventListener('click', (event) => {
+// Remove 'active' class from all buttons
+navButtons.forEach(btn => btn.classList.remove('active'));
+
+// Add 'active' class to the clicked button
+event.currentTarget.classList.add('active');
+// const topOffset = button.offsetTop;
+// highlight.style.top = `${topOffset}px`;
+updateHighlight(index);
+// Get the clicked site's name (from span inside the div)
+const siteName = event.currentTarget.querySelector('span').textContent;
+
+console.log(`Selected site: ${siteName}`);
+
+// Store siteName for later use in the POST request
+document.getElementById('send-button').dataset.siteName = siteName;
+});
+});
+
+const handleSubmit = function () {
+    event.preventDefault();
+    console.log(document.getElementById('send-button'));
+const siteName = this.dataset.siteName; // Get the selected site name
+console.log(this)
+const message = document.getElementById('user-message').value;
+
+if (siteName && message) {
+addMessage(message, 'user');
+addMessage('...', 'bot');
+document.getElementById('user-message').value = '';
+
+fetch('{% url "chat" %}', {
+method: 'POST',
+headers: {
+    'Content-Type': 'application/json',
+    'X-CSRFToken': '{{ csrf_token }}'
+},
+body: JSON.stringify({ site_name: siteName, message: message })
+})
+.then(response => response.json())
+.then(data => {
+const lastBotMessage = document.querySelector('.message.bot:last-child');
+lastBotMessage.innerHTML = data.response;
+scrollToBottom();
+});
+} else {
+alert('Please select a site and enter a message.');
+}
+}
+sendButton = document.getElementById('send-button');
+sendButton.addEventListener('click', handleSubmit);
+queryForm = document.getElementById('query-form');
+queryForm.addEventListener('submit', handleSubmit);
+
+document.getElementById('new-site-button').addEventListener('click', function() {
+    document.getElementById('newSiteModal').style.display = 'block';
+});
+document.getElementById('cross-sign').addEventListener('click', function() {
+    document.getElementById('newSiteModal').style.display = 'none';
+});
+
+document.getElementById('new-site-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const url = document.getElementById('site_url').value;
+    const name = document.getElementById('site_name').value;
+    console.log("Details:   s ",url,name );
+    
+    fetch('{% url "url_entry" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ url: url, name: name })
+    })
+    .then(response => {
+        if (response.ok) {
+            // alert('New site added successfully.');
+            console.log("Done")
+            document.getElementById('newSiteModal').style.display = 'none';
+        }
+    });
+});
+
+function addMessage(text, type) {
+    const messagesContainer = document.getElementById('messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`;
+    messageDiv.innerHTML = text;
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+document.getElementById('new-site-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+    
+    // Get form values
+    var url = document.getElementById('site_url').value;
+    var name = document.getElementById('site_name').value;
+
+    // Create FormData object
+    var formData = new FormData();
+    formData.append('site_url', url);
+    formData.append('site_name', name);
+    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}'); // CSRF token
+
+    // Send the AJAX request
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "{% url 'url_entry' %}", true);
+
+    // Show the "Scraping in Progress" modal before sending the request
+    document.getElementById('scrapingProgressModal').style.display = 'block';
+    
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log('Scraping started or completed');
+        } else {
+            console.error('Error occurred during the scraping process');
+            console.log("Fail Fail")
+        }
+        document.getElementById('scrapingProgressModal').style.display = 'none';
+        location.reload()
+    };
+    
+    xhr.onerror = function() {
+        console.error('Request failed');
+    };
+    
+    xhr.send(formData);
+    document.getElementById('newSiteModal').style.display = 'none';
+
+    // Hide the Add New Site modal
+});
+
+function copyToClipboard(event) {
+    // Assuming the button is within a parent that contains the message text.
+    const button = event.target;
+    button.disabled = true;
+    console.log(button)
+    
+    // Find the message text (assuming the message is inside a sibling or parent div)
+    const message = button.closest('.bot').textContent;
+
+    // Create a temporary textarea element to copy the content
+    const tempTextArea = document.createElement('textarea');
+    tempTextArea.value = message;
+    // Make sure the textarea is invisible
+    tempTextArea.style.position = 'absolute';
+    tempTextArea.style.opacity = 0;
+    document.body.appendChild(tempTextArea);
+
+    // Select the content and copy it to the clipboard
+    tempTextArea.select();
+    tempTextArea.setSelectionRange(0, tempTextArea.value.length);  // Select the entire content
+    
+    // Write the text to the clipboard
+    navigator.clipboard.writeText(tempTextArea.value)
+        .then(() => {
+            console.log('Clearing button content');
+console.log('Setting success icon');
+// button.innerHTML = '<i class="fa-regular fa-circle-check"></i>';
+button.classList.remove('fa-copy');
+button.classList.add('fa-circle-check');
+
+    setTimeout(() => {
+        // button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+        button.classList.remove('fa-circle-check');
+button.classList.add('fa-copy');
+        button.disabled = false;},2000);
+        
+    })
+    .catch(err => {
+        console.error("Error copying text: ", err);
+        button.classList.remove('fa-circle-check');
+button.classList.add('fa-copy');
+        button.disabled = false;
+        });
+
+    // Clean up by removing the temporary textarea
+    document.body.removeChild(tempTextArea);
+    
+}
+
+    </script>
+    </body>
+    </html>

@@ -1,0 +1,216 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'); */
+
+@font-face {
+    font-family: 'Inter';
+    src: url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+}
+.register-form{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+    /* height: 100%; */
+    width: 35%;
+    border-radius: 15px;
+    margin: auto; 
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    font-family: 'Inter', sans-serif;
+}
+
+
+.errorlist{
+    list-style: none;
+}
+
+.fieldWrapper{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    position: relative;
+    /* float: left; */
+}
+.fieldWrapper:focus{
+    border: 3px solid #555;
+}
+
+.register-form h1{
+    text-align: center;
+    text-transform: capitalize;
+}
+button {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 16px;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    background-color: black;
+    box-shadow:0 4px 8px rgba(0, 0, 0, 0.26);
+}
+button:hover{
+    background-color: #7895d0;
+}
+.form-labels{
+    display:flex;
+    flex-direction:column;
+    /* padding: 0%; */
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    padding-bottom: 15px;
+}
+.form-inputs{
+    display:flex;
+    flex-direction:column;
+    /* padding: 0%; */
+    width: 95%;
+    margin-bottom: 15px;
+    /* box-shadow: 2px 6px 0 rgba(0, 0, 0, 0.26) inset; */
+    border-radius: 7px;
+    height: 23px;
+    padding: 12px 10px ;
+    font-size: 20px;
+    margin-left: 0;
+}
+
+.form-password{
+    position: relative;
+
+}
+.open_eye{
+    position: absolute;
+    top:285px;
+    left:450px
+}
+
+.register-form a{
+    /* text-decoration: none; */
+    color: black;
+    font-weight: 700;
+}
+/* .chatbot{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+}
+
+.chatbot form label,input{
+
+    padding: 5px;
+    margin-left: 10px;
+} */
+/* .query-entry{
+    width: 100%;
+} */
+
+/* 
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    height: 500px;
+    padding: 30px;
+    margin: 0 auto;
+    margin-top: 3%;
+    margin-left: 10.5%;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background-color: #e5ddd5;
+    border-radius: 10px;
+    
+}
+
+.chat-header {
+    background-color: #075E54;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+}
+#chat-form input{
+    width:66vw;
+    margin-left: 90px;
+}
+.chat-box {
+    flex-grow: 1;
+    padding: 20px;
+
+    background-color: #e5ddd5;
+}
+
+.message {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.message.sent {
+    justify-content: flex-end;
+}
+
+.message.received {
+    justify-content: flex-start;
+}
+
+.message-content {
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 60%;
+    font-size: 14px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.message.sent .message-content {
+    background-color: #DCF8C6;
+}
+
+.message.received .message-content {
+    background-color: white;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #f0f0f0;
+    position: sticky;
+    bottom: 0;
+    margin: auto;
+    width:80%;
+    background-color: red;    
+}
+
+.query-entry {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    font-size: 14px;
+}
+
+.send-button {
+    background-color: #075E54;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    margin: auto;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100px ;
+    outline: none;
+}
+
+.send-button:hover {
+    background-color: #128C7E;
+}
+ */

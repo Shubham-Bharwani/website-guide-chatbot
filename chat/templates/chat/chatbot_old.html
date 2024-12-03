@@ -1,0 +1,448 @@
+<!-- {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+</head>
+<body>
+    <div class="chatbot">
+    {% if history %}
+    {% for i in history %}
+    Query: {{ i.query }}
+    Response: {{ i.response }}
+    <br>
+    {% endfor %}
+    {% endif %}
+    <form action="{% url 'chat' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="query" class="query-entry" placeholder="Enter your Query:" required>
+        <input type="hidden" name="sitename"  value="Example">
+        <input type="button" value="ASK ">
+    </form>
+</div>
+</body>
+</html> -->
+
+<!-- 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/chat.js' %}" defer></script>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <div class="chat-box" id="chat-box">
+            {% if history %}
+            {% for i in history %}
+            <div class="message sent">
+                <div class="message-content">
+                    <span class="query">{{ i.query }}</span>
+                </div>
+            </div>
+            <div class="message received">
+                <div class="message-content">
+                    <span class="response">{{ i.response }}</span>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="chat-input">
+        <form action="{% url 'chat' %}" method="post" id="chat-form">
+            {% csrf_token %}
+            <input type="text" name="query" class="query-entry" placeholder="Enter your Query:" required>
+            <input type="hidden" name="sitename" value="Example">
+
+             <input type="submit" value="ASK" class="send-button">
+        </form>
+    </div>
+</body>
+
+</html> -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+    <!-- <script src="{% static 'js/chat.js' %}" defer></script> -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1e1e2f; /* Dark background */
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        /* Top bar with dropdown and buttons */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #34354a; /* Darker grey for header */
+            align-items: center;
+            /* border-bottom: 2px solid #2e2f3e; */
+        }
+
+        .dropdown select {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4a4d66; /* Darker blue for dropdown */
+            color: white;
+            font-size: 16px;
+        }
+
+        .top-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .top-buttons button {
+            padding: 10px 15px;
+            background-color: #5865f2; /* GPT theme button color */
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .top-buttons button:hover {
+            background-color: #4752c4; /* Darker on hover */
+        }
+
+        /* Chat container styling */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 75%;
+            height: 600px;
+            padding: 30px;
+            padding-top: 10px;
+            margin-top: 3%;
+            margin-left: 12.5%;
+            background-color: #2d2f3e; /* Chat background dark grey */
+            border-radius: 10px;
+            color: white;
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #383a53; /* Slightly lighter background for chat box */
+            overflow-y: auto;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="text"] {
+            width: 60vw;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            background-color: #5865f2; /* GPT primary color */
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 60%;
+            font-size: 14px;
+            color: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.sent .message-content {
+            background-color: #5865f2;
+        }
+
+        .message.received .message-content {
+            background-color: #4a4d66; /* Darker background for received messages */
+        }
+
+        /* Input and send button */
+        .chat-input {
+            display: flex;
+            background-color: #2d2f3e; /* Dark background for input area */
+            padding: 10px;
+            padding-left: 8px;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+
+        .query-entry {
+            padding: 13px;
+            border: none;
+            border-radius: 25px;
+            flex-grow: 1;
+            font-size: 14px;
+            width: calc(100% - 120px);
+            background-color: #383a53; /* Darker input field */
+            color: white;
+        }
+
+        .send-button {
+            background-color: #5865f2;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            border-radius: 5px;
+        }
+
+        .send-button:hover {
+            background-color: #4752c4;
+        }
+
+        /* Pop-up form styles */
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .popup-content {
+            background-color: #34354a;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .popup-content input {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            background-color: #4a4d66;
+            color: white;
+        }
+
+        .popup-content button {
+            background-color: #5865f2;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .popup-content button:hover {
+            background-color: #4752c4;
+        }
+
+        .popup-close {
+            float: right;
+            cursor: pointer;
+            font-size: 30px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="top-bar">
+            <div class="dropdown">
+                <select name="sites" id="site-dropdown">
+                    {% for site in sitenames %}
+                    <option value="example1">{{ site.0 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="top-buttons">
+                <button onclick="openPopup()">New Site</button>
+                <form action="{% url 'logout' %}">
+                    <button>Logout</button>
+                </form>
+            </div>
+        </div>
+        <div class="chat-box" id="chat-box">
+            {% if history %}
+            {% for i in history %}
+            <div class="message sent">
+                <div class="message-content">
+                    <span class="query">{{ i.query }}</span>
+                </div>
+            </div>
+            <div class="message received">
+                <div class="message-content">
+                    <span class="response">{{ i.response }}</span>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="chat-input">
+            <form action="{% url 'chat' %}" class="input-box" id="chat-form" method="post" >
+                {% csrf_token %}
+                <!-- <div > -->
+                    <input type="text" name="query" class="query-entry" placeholder="Enter your Query:" required>
+                    <input type="hidden" name="sitename" value="Example">
+                    <input type="submit" value="ASK" class="send-button">
+                    {{new_answer}}
+                <!-- </div> -->
+            </form>
+        </div>
+    </div>
+
+    <!-- Pop-up form -->
+    <div id="new-site-popup" class="popup">
+        <div class="popup-content">
+            <span class="popup-close" onclick="closePopup()">&times;</span>
+            <h2>Add New Site</h2>
+            <form id="new-site-form" action="{% url 'url_entry' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="site_name" placeholder="Site Name" required>
+                <input type="url" name="site_url" placeholder="Site URL" required>
+                <button type="submit">Create Site</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Open pop-up
+        function openPopup() {
+            document.getElementById("new-site-popup").style.display = "block";
+        }
+
+        // Close pop-up
+        function closePopup() {
+            document.getElementById("new-site-popup").style.display = "none";
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+    const chatBox = document.getElementById("chat-box");
+    const chatForm = document.getElementById("chat-form");
+    const queryInput = document.querySelector('.query-entry');
+
+    // Auto-scroll to the bottom when the page loads or new messages are added
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // Handle form submission
+    chatForm.addEventListener("submit", function(e) {
+        const query = queryInput.value.trim();
+        console.log('query is:', query)
+        if (query !== "") {
+            e.preventDefault(); // Prevent default form submission
+            
+            // Append user's message to the chat
+            const sentMessage = document.createElement("div");
+            sentMessage.classList.add("message", "sent");
+            sentMessage.innerHTML = `<div class="message-content">${query}</div>`;
+            chatBox.appendChild(sentMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            console.log('query is:', query)
+            
+            // Clear the input field
+            queryInput.value = '';
+            
+            // Add a loading indicator
+            const loadingIndicator = document.createElement("div");
+            loadingIndicator.classList.add("message", "received");
+            loadingIndicator.innerHTML = `<div class="message-content">...</div>`;
+            chatBox.appendChild(loadingIndicator);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Use fetch to send the POST request
+            const formData = new FormData(chatForm);
+            console.log("Formdata is ", formData.get('sitename'))
+            console.log("Formdata is ", formData.get('query'))
+            fetch(chatForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken') // Include CSRF token
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                chatBox.removeChild(loadingIndicator); // Remove loading
+
+                const responseMessage = document.createElement("div");
+                responseMessage.classList.add("message", "received");
+                responseMessage.innerHTML = `<div class="message-content">${data}</div>`; // Set response content
+                chatBox.appendChild(responseMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                chatBox.removeChild(loadingIndicator); // Remove loading
+            });
+        }
+    });
+
+    // Function to get CSRF token (if needed)
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+
+
+    </script>
+
+</body>
+
+</html>

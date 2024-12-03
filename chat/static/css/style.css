@@ -1,0 +1,120 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+}
+
+.register-form {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+    width: 25%;
+    border-radius: 15px;
+    margin: auto;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f3f6f9;  /* Lighter primary color */
+    font-family: 'Inter', sans-serif;
+}
+
+/* :start */
+
+/* Style the container of the error list */
+ul.errorlist {
+    list-style-type: none; /* Remove default list bullets */
+    padding: 0;
+    margin: 0;
+    color: #b94a48; /* Red color for error messages */
+    background-color: #f2dede; /* Light red background */
+
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%; /* Optional: full width of the form container */
+}
+
+/* Style each list item (individual error message) */
+ul.errorlist li {
+    padding: 5px;
+    margin: 10px 0;
+    background-color: #ffd1d5; /* Lighter background for each error */
+    border-radius: 10px;
+}
+
+/* Optional: Style for individual error messages to stand out more */
+ul.errorlist li::before {
+    content: " ⚠️ "; /* Add an icon before each error */
+    font-weight: bold;
+}
+
+/* Additional styling for the error container in forms */
+div.errorlist {
+    margin-bottom: 10px; /* Space between the error list and form fields */
+}
+
+
+/* :end */
+.fieldWrapper {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.register-form h2 {
+    text-align: center;
+
+    color: #3b5998;  /* Primary color */
+}
+
+button {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 16px;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    padding: 10px;
+    width: 100%;
+    color: white;
+    background-color: #3b5998;  /* Primary color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+}
+
+button:hover {
+    background-color: #7895d0;
+}
+
+.form-inputs {
+    display: block;
+    width: 95%;
+    margin-bottom: 15px;
+    border-radius: 7px;
+    padding: 12px 10px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+}
+
+.login-link {
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    color: #3b5998;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+.or-divider {
+    display: flex;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 16px;
+    color: #888;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{% static 'css/chat_try.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidenav.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="{% static 'js/script.js' %}" defer></script>
+</head>
+<body>
+    <div id="nav-bar">
+        <input id="nav-toggle" type="checkbox">
+        <div id="nav-header">
+        <a id="nav-title" href="{% url 'chat' %}" target="_blank">
+            CHATBOT GUIDE
+        </a>
+        
+        <!-- <label for="nav-toggle">
+            <span id="nav-toggle-burger"></span>
+        </label> -->
+        <!-- <hr> -->
+    </div>
+    <div class="nav-button" id="new-site-button">
+        <i class="fas fa-plus"></i>
+        <span>New Site</span>
+    </div>
+        <div id="nav-content">
+            {% for site in sites %}
+        <div class="nav-button"><i class="fas fa-globe"></i><span>{{site.0}}</span></div>
+        <hr>
+        {% endfor %}
+        <div id="nav-content-highlight"></div>
+        </div>
+        <input id="nav-footer-toggle" type="checkbox">
+        <div id="nav-footer">
+        <div id="nav-footer-heading">
+            <!-- <div id="nav-footer-avatar">
+            <img src="https://gravatar.com/avatar/4474ca42d303761c2901fa819c4f2547" alt="Avatar">
+            </div> -->
+            <div id="nav-footer-titlebox">
+            <a id="nav-footer-title" target="_blank">{{user.username}}</a>
+            <span id="nav-footer-subtitle">{{user.email}}</span>
+            </div>
+
+            <label for="nav-footer-toggle">
+                <a href="{% url 'logout' %}">
+                <i class="fas fa-sign-out-alt"></i></a>
+            </label>
+        </div>
+        <!-- <div id="nav-footer-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div> -->
+        </div>
+    </div>
+    <div class="chat-container">
+        <div class="messages" id="messages">
+            <!-- Chat messages will be appended here -->
+        </div>
+        <div class="chat-input-bar">
+            <input type="text" id="userInput" class="chat-input" placeholder="Type your message...">
+            <button id="send-button" aria-label="Send Message">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">Add Additional Info</div>
+            <div class="modal-body">
+                <input type="text" id="modalInput" placeholder="Enter some info">
+                <button id="submitModal">Submit</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
