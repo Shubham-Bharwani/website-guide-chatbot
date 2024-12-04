@@ -22,6 +22,7 @@ from markdown import markdown
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control, never_cache
 from django.core.cache import cache
+from dotenv import load_dotenv
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -94,7 +95,9 @@ def url_entry_view(request):
         form = URLEntryForm()
     return render(request, 'chat/url_entry.html', {'form': form})
 
-genai.configure(api_key="AIzaSyDFVMufmvUPfvWcvJ9ASlkyElXC9VqeiMs")
+load_dotenv()
+gemini_api_key = os.getenv('GEMINI_API_KEY')
+genai.configure(api_key=gemini_api_key)
 model = genai.GenerativeModel('gemini-1.5-flash')
 # chat = model.start_chat()
 
